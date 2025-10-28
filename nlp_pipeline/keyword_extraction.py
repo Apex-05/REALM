@@ -14,27 +14,81 @@ RAKE = Rake(
 
 # Extended stopword set
 CUSTOM_STOPWORDS = {
-    'hi', 'hello', 'hey', 'gonna', 'wanna', 'got', 'get', 'went', 'going',
-    'really', 'much', 'thing', 'things', 'stuff', 'lot', 'lots', 'way',
-    'actually', 'probably', 'maybe', 'just', 'like', 'know', 'think',
-    'want', 'need', 'make', 'said', 'say', 'people', 'time', 'day',
+    # Core pronouns, articles, prepositions, conjunctions
     'i', 'me', 'my', 'mine', 'you', 'your', 'yours', 'he', 'him', 'his',
     'she', 'her', 'hers', 'it', 'its', 'we', 'us', 'our', 'ours',
-    'they', 'them', 'their', 'theirs', 'a', 'an', 'the', 'and', 'but',
-    'or', 'if', 'because', 'as', 'until', 'while', 'of', 'at', 'by',
-    'for', 'with', 'about', 'against', 'between', 'into', 'through',
-    'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up',
-    'down', 'in', 'out', 'on', 'off', 'over', 'under', 'there', 'here',
-    'what', 'where', 'when', 'who', 'whom', 'which', 'why', 'how',
-    'lol', 'omg', 'idk', 'wtf', 'u', 'ur', 'thx', 'k', 'ok', 'yeah',
-    'yep', 'nah', 'yo', 'sup', 'pls', 'plz', 'btw', 'tbh', 'imo', 'fyi',
-    'smh', 'brb', 'gtg', 'ikr', 'lmao', 'rofl', 'dm', 'bff', 'irl',
-    'nsfw', 'edit', 'deleted', 'removed', 'mod', 'mods', 'reddit',
-    'subreddit', 'op', 'xposted', 'crosspost', 'like', 'post', 'comment',
-    'also', 'even', 'still', 'very', 'too', 'can', 'cannot', 'could',
-    'should', 'would', 'may', 'might', 'must', 'shall', 'will', 'did',
-    'does', 'doing', 'done'
+    'they', 'them', 'their', 'theirs', 'a', 'an', 'the', 'and', 'but', 'or',
+    'if', 'because', 'as', 'while', 'of', 'at', 'by', 'for', 'with', 'about',
+    'against', 'between', 'into', 'through', 'during', 'before', 'after',
+    'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off',
+    'over', 'under', 'what', 'where', 'when', 'who', 'whom', 'which', 'why', 'how',
+
+    # Conversational fillers & politeness
+    'hi', 'hello', 'hey', 'thanks', 'thank', 'please', 'welcome', 'sure',
+    'yeah', 'ok', 'okay', 'alright', 'fine', 'right', 'well', 'oh', 'hmm',
+    'ah', 'uh', 'um', 'huh', 'wow', 'oops', 'hahaha', 'haha', 'lolol', 'hmm',
+
+    # Weak intensifiers and filler adverbs
+    'really', 'very', 'just', 'actually', 'maybe', 'probably', 'basically',
+    'literally', 'clearly', 'obviously', 'definitely', 'simply', 'honestly',
+    'apparently', 'anyway', 'anyways', 'somehow', 'sometimes', 'often', 'always',
+
+    # Quantity & vagueness words
+    'lot', 'lots', 'thing', 'things', 'stuff', 'something', 'anything',
+    'everything', 'nothing', 'some', 'many', 'much', 'more', 'less', 'few',
+    'kind', 'kinda', 'sort', 'sorta', 'type', 'types', 'group', 'bunch',
+
+    # Generic helpers / weak verbs (low context value)
+    'can', 'cannot', 'could', 'should', 'would', 'may', 'might', 'must',
+    'shall', 'will', 'did', 'does', 'doing', 'done', 'make', 'makes', 'made',
+    'take', 'takes', 'taken', 'say', 'says', 'said', 'see', 'seen', 'seems',
+    'know', 'knows', 'knew', 'think', 'thought', 'want', 'wants', 'wanted',
+    'go', 'goes', 'went', 'gone', 'get', 'gets', 'got', 'gotten', 'come',
+    'came', 'coming', 'put', 'puts', 'putting', 'try', 'trying', 'tried',
+    'use', 'used', 'using', 'feel', 'feels', 'felt', 'give', 'gave', 'given',
+
+    # Internet slang & short forms
+    'lol', 'omg', 'idk', 'wtf', 'u', 'ur', 'thx', 'k', 'ok', 'yep', 'nah',
+    'yo', 'sup', 'pls', 'plz', 'btw', 'tbh', 'imo', 'imho', 'fyi', 'smh',
+    'brb', 'gtg', 'ikr', 'lmao', 'rofl', 'dm', 'bff', 'irl', 'nsfw', 'afaik',
+    'imo', 'idc', 'ikr', 'btw', 'bc', 'cuz', 'tho', 'tho', 'ya', 'yah', 'yea',
+
+    # Reddit/platform & auto-moderator artifacts
+    'edit', 'edited', 'deleted', 'removed', 'update', 'mod', 'mods',
+    'reddit', 'subreddit', 'thread', 'post', 'comment', 'reply', 'upvote',
+    'downvote', 'karma', 'op', 'xposted', 'crosspost', 'user', 'bot',
+    'automod', 'automoderator', 'flair', 'report', 'link', 'url', 'source',
+
+    # Weak connectors and structure words
+    'also', 'even', 'still', 'though', 'however', 'therefore', 'thus', 'since',
+    'because', 'meanwhile', 'then', 'now', 'today', 'yesterday', 'tomorrow',
+    'back', 'again', 'once', 'next', 'first', 'second', 'third', 'last',
+
+    # Emotional filler / vague sentiment
+    'nice', 'good', 'bad', 'great', 'cool', 'awesome', 'amazing', 'crazy',
+    'funny', 'weird', 'random', 'boring', 'interesting', 'fine', 'ok', 'okay',
+
+    # Meta and general discussion terms
+    'people', 'guys', 'someone', 'everyone', 'anyone', 'thing', 'things',
+    'stuff', 'topic', 'thread', 'point', 'idea', 'post', 'comment',
+
+    # Non-informative technical/formatting tokens
+    'http', 'https', 'www', 'com', 'jpg', 'png', 'gif', 'video', 'image',
+    'pic', 'photo', 'link', 'url', 'amp', 'nbsp', 'lt', 'gt', 'im', 'ive',
+    'youre', 'hes', 'shes', 'theyre', 'were', 'thats', 'theres', 'dont',
+    'doesnt', 'didnt', 'cant', 'couldnt', 'shouldnt', 'wouldnt', 'wasnt',
+    'werent', 'isnt', 'arent', 'havent', 'hasnt', 'hadnt', 'wont', 'wouldve',
+    'couldve', 'shouldve', 'mustve', 'im', 'ive', 'youve', 'weve', 'theyve',
+
+    # Time/place fillers (common in discussion but rarely topic-relevant)
+    'year', 'years', 'month', 'months', 'week', 'weeks', 'day', 'days',
+    'hour', 'hours', 'minute', 'minutes', 'today', 'tonight', 'morning',
+    'evening', 'night', 'ago', 'time', 'times', 'now', 'later',
+
+    # Platform noise from links / scraping
+    'amp', 'nbsp', 'lt', 'gt', 'quot', 'br', 'href', 'src'
 }
+
 
 # Convert to list for TfidfVectorizer
 STOPWORDS = list(ENGLISH_STOP_WORDS.union(CUSTOM_STOPWORDS))
@@ -94,7 +148,10 @@ def run_keyword_extraction(df: pd.DataFrame, use_tfidf=True):
             RAKE.extract_keywords_from_text(text)
             ranked_phrases = RAKE.get_ranked_phrases_with_scores()
             topic_keywords = filter_topic_keywords(ranked_phrases, min_score=1.0)
-            keywords_str = ", ".join(topic_keywords) if topic_keywords else "No keywords found"
+            # Remove any commas inside keywords for safety
+            topic_keywords = [kw.replace(",", "") for kw in topic_keywords]
+            # Join keywords with space, not comma
+            keywords_str = " ".join(topic_keywords) if topic_keywords else "NoKeywords"
             result_comments.append(text)
             result_keywords.append(keywords_str)
         except Exception as e:
