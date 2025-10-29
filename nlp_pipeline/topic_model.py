@@ -11,16 +11,14 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 EMBED_MODEL = SentenceTransformer("all-MiniLM-L6-v2", device=DEVICE)
 
 def clean_text(text):
-    """Basic text cleanup with light filtering."""
     if not isinstance(text, str):
         return ""
     text = text.strip().lower()
-    text = re.sub(r'[^\w\s]', '', text)  # remove punctuation
+    text = re.sub(r'[^\w\s]', '', text)  
     words = [w for w in text.split() if len(w) > 2]
     return " ".join(words) if len(words) >= 5 else ""
 
 def optimal_k(embeddings, max_k=8):
-    """Find optimal K with smaller search space + smoothed scores."""
     scores = []
     for k in range(2, max_k + 1):
         kmeans = MiniBatchKMeans(
@@ -44,25 +42,22 @@ def run_kmeans_topic_modeling(df: pd.DataFrame, n_clusters=None):
 
     print(f"[INFO] Encoding {len(valid_texts)} comments...")
     embeddings = EMBED_MODEL.encode(valid_texts, convert_to_numpy=True, show_progress_bar=True)
-    embeddings = normalize(embeddings)  # ✅ Softens cluster boundaries
+    embeddings = normalize(embeddings)  
 
-    # Auto-decide number of clusters if not given
     if n_clusters is None:
         n_clusters = min(optimal_k(embeddings, max_k=min(8, len(valid_texts)-1)), len(valid_texts))
     print(f"[INFO] Using {n_clusters} clusters")
 
-    # Softer K-means
     kmeans = MiniBatchKMeans(
         n_clusters=n_clusters,
         n_init=5,
         random_state=42,
         batch_size=64,
         max_iter=200,
-        reassignment_ratio=0.05  # ✅ Allows some drift
+        reassignment_ratio=0.05  
     )
     cluster_labels = kmeans.fit_predict(embeddings)
 
-    # Compute topic confidence (cosine similarity to centroid)
     centroids = normalize(kmeans.cluster_centers_)
     topic_probs = np.sum(embeddings * centroids[cluster_labels], axis=1)
 

@@ -2,3 +2,7 @@ checkpoint/
 checkpoints/
 **/checkpoint/
 **/checkpoints/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd

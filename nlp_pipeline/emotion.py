@@ -56,7 +56,6 @@ def aggregate_chunk_emotions(chunk_results: list) -> dict:
 def run_emotion_detection(df: pd.DataFrame, batch_size: int = 32):
     """Run emotion detection with chunking support."""
     
-    # ✅ FIXED: Keep track of original comments
     original_comments = df['comment'].tolist()
     
     # Clean texts
@@ -84,7 +83,7 @@ def run_emotion_detection(df: pd.DataFrame, batch_size: int = 32):
         final_result = aggregate_chunk_emotions(chunk_preds)
         all_results.append(final_result)
     
-    # ✅ FIXED: Build aligned lists with results
+    
     result_comments = []
     result_emotions = []
     result_scores = []
@@ -94,7 +93,7 @@ def run_emotion_detection(df: pd.DataFrame, batch_size: int = 32):
         result_emotions.append(result['label'])
         result_scores.append(result['score'])
     
-    # ✅ FIXED: Create DataFrame from aligned lists
+    
     out_df = pd.DataFrame({
         "comment": result_comments,
         "emotion": result_emotions,

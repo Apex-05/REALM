@@ -4,24 +4,20 @@ import pandas as pd
 import spacy
 
 
-# Load small English model
 NLP = spacy.load("en_core_web_sm")
 
 
 def run_entity_extraction(df: pd.DataFrame):
     """Extract named entities from pre-cleaned text."""
     
-    # ✅ FIXED: Keep track of original comments
     original_comments = df['comment'].tolist()
     
-    # Process each comment
     result_comments = []
     result_entities = []
     
     for text in df['comment'].fillna("").astype(str):
         text = text.strip()
         
-        # Skip empty texts
         if not text or len(text.split()) < 5:
             continue
         
@@ -38,13 +34,11 @@ def run_entity_extraction(df: pd.DataFrame):
             result_comments.append(text)
             result_entities.append("Error processing")
     
-    # ✅ FIXED: Create DataFrame from aligned lists
     out_df = pd.DataFrame({
         "comment": result_comments,
         "entities": result_entities
     })
     
-    # Create summary - count entity types
     entity_types = {}
     for ent_str in result_entities:
         if ent_str and ent_str != "No entities found" and ent_str != "Error processing":

@@ -8,10 +8,9 @@ import torch
 DEVICE = 0 if torch.cuda.is_available() else -1
 
 
-# ✅ CHANGED: Use a public, accessible model
 HARM_PIPELINE = pipeline(
     "text-classification",
-    model="SamLowe/roberta-base-go_emotions",  # Public model, no authentication needed
+    model="SamLowe/roberta-base-go_emotions",  
     framework="pt",
     device=DEVICE,
     truncation=True,
@@ -74,13 +73,10 @@ def aggregate_chunk_harmful(chunk_results: list) -> dict:
 def run_harmful_content_flag(df: pd.DataFrame, batch_size: int = 32):
     """Run harmful content detection with chunking support."""
     
-    # ✅ FIXED: Keep track of original comments
     original_comments = df['comment'].tolist()
     
-    # Clean texts
     texts = df['comment'].fillna("").astype(str).apply(minimal_clean_harmful).tolist()
     
-    # ✅ FIXED: Find valid indices (non-empty after cleaning)
     valid_indices = [i for i, t in enumerate(texts) if t]
     valid_texts = [texts[i] for i in valid_indices]
     
@@ -105,7 +101,6 @@ def run_harmful_content_flag(df: pd.DataFrame, batch_size: int = 32):
         final_result = aggregate_chunk_harmful(chunk_preds)
         all_results.append(final_result)
     
-    # ✅ FIXED: Build aligned lists
     result_comments = []
     result_labels = []
     result_scores = []
@@ -115,7 +110,6 @@ def run_harmful_content_flag(df: pd.DataFrame, batch_size: int = 32):
         result_labels.append(result['label'])
         result_scores.append(result['score'])
     
-    # ✅ FIXED: Create DataFrame from aligned lists
     out_df = pd.DataFrame({
         "comment": result_comments,
         "harmful_label": result_labels,

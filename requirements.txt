@@ -6,13 +6,13 @@ sentence-transformers
 bertopic
 hdbscan
 scikit-learn
-torch        # CPU or GPU build as appropriate
+torch        
 spacy
 textblob
 praw
 matplotlib
-fastapi     # optional, for microservice
-uvicorn     # optional
-requests    # for calling Gemini or the microservice
+fastapi    
+uvicorn     
+requests   
 python-dotenv
 tqdm
