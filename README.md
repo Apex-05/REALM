@@ -94,7 +94,24 @@ REALTIME-PIPELINE/
 │
 └── run_pipeline.py               # Unified entry point for local NLP execution
 ```
+```
+results/
+|-- emotion_results.csv   	# columns: "comment","emotion","score"
+|-- entities.csv          	# columns: "comment","entities"
+|-- harmful_flags.csv     	# columns: "comment","harmful_label","score"
+|-- keywords.csv          	# columns: "comment","keywords"
+|-- sentiment_results.csv 	# columns: "comment","sentiment","score"
+|-- topic_resluts.csv     	# columns: "comment","topic","topic_prob"
 
+
+results_spark/
+|-- emotion_flags_spark.csv  	# columns: "comment","emotion","score"
+|-- entity_spark.csv         	# columns: "comment","entities"
+|-- harmful_flags_spark.csv     # columns: "comment","harmful_label","score"
+|-- keywords_spark.csv          # columns: "comment","keywords"
+|-- sentiment_flags_spark.csv   # columns: "comment","sentiment","score"
+|-- topic_results_spark.csv     # columns: "comment","topic","topic_prob"
+```
 ***
 
 ## 4. Key Components
