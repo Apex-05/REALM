@@ -139,14 +139,14 @@ results_spark/
 
 ## 5. Execution Flow
 
-### A. Local Mode (for testing or small-to-medium datasets)  
+### A. Local Mode (for testing of small to medium datasets)  
 ```bash
 python run_pipeline.py
 ```
 - Runs all NLP modules sequentially on HDFS batch files.
 - Suitable for local or small-scale executions without Spark cluster dependencies.
 
-### B. Distributed Mode (for large-scale datasets)  
+### B. Distributed Mode (for large scale datasets)  
 Run the corresponding Spark notebooks from `nlp_pipeline_spark/` using:  
 ```bash
 spark-submit --master local[*] <notebook>.ipynb
